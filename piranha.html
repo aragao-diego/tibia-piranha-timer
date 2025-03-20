@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>piranha timer</title>
+    <script lang="javascript">
+        var START_TIME = "";
+        var INTERVAL = null;
+        function updateDiv(start, current){
+            let time_passed = (current.getTime() - start.getTime()) % (60 * 2 * 1000)
+            let current_timer = new Date(time_passed)
+            let color = "green"
+            if (time_passed > (110 * 1000)) {
+                color = "red"
+            } else if (time_passed > (100 * 1000)) {
+                color = "orange"
+            }
+
+            $("#timer_box").css('background-color', color)
+            let div = $("#timer_display").text(`${String(current_timer.getMinutes()).padStart(2, '0')}:${new String(current_timer.getSeconds()).padStart(2, '0')}`)
+        }
+    </script>
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+        }
+        .flex-container {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .timer-box {
+            width: 900px;
+            height: 600px;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .timer-box p {
+            font-size: 10em;
+            font-weight: bold;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="flex-container">
+        <div class="row">
+            <div id="timer_box" class="timer-box">
+                <p id="timer_display"></p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <button id="start_timer">START</button>
+            <button id="stop_timer">STOP</button>
+        </div>
+    </div>
+    <script lang="javascript">
+        $("#start_timer").on("click", (ev) => {
+            START_TIME = new Date()
+            INTERVAL = setInterval((in_ev) => {
+                updateDiv(START_TIME, new Date())
+                console.log("wee")
+            }, 1000)
+        })
+        $("#stop_timer").on("click", (ev) => {
+            clearInterval(INTERVAL)
+        })
+    </script>
+</body>
+</html>
